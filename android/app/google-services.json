@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "34198759272",
+    "project_id": "emi-management-f6d71",
+    "storage_bucket": "emi-management-f6d71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34198759272:android:9a5930cd6a484b3c26d8dd",
+        "android_client_info": {
+          "package_name": "com.example.emi_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTFgdoilKrF5omCJyaCAvZ-f2_T8Djjl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
