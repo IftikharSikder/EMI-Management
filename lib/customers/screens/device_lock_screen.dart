@@ -4,18 +4,18 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class DeviceLockedScreen extends StatelessWidget {
-  final DateTime dueDate;
-  final double amountDue;
+  final DateTime? dueDate;
+  final double? amountDue;
 
   const DeviceLockedScreen({
     super.key,
-    required this.dueDate,
-    required this.amountDue,
+    this.dueDate,
+    this.amountDue,
   });
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = DateFormat('dd MMMM yyyy').format(dueDate);
+    final formattedDate = DateFormat('dd MMMM yyyy').format(dueDate!);
     final formattedAmount = NumberFormat.currency(
       symbol: '₹',
       decimalDigits: 0,
