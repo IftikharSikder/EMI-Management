@@ -1,7 +1,8 @@
-import 'package:emi_management/admin/controllers/customer_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled/admin/controllers/customer_controller.dart';
 
 class CustomerProfileScreen extends StatelessWidget {
   final String customerId;

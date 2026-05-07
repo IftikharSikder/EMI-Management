@@ -1,10 +1,11 @@
-import 'package:emi_management/admin/controllers/device_controller.dart';
-import 'package:emi_management/admin/screens/add_device_page.dart';
-import 'package:emi_management/admin/screens/emi_details_screen.dart';
-import 'package:emi_management/utils/widgets/log_out_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/admin/controllers/device_controller.dart';
+import 'package:untitled/utils/widgets/log_out_widget.dart';
+
+import 'add_device_page.dart';
+import 'emi_details_screen.dart';
 
 class DevicesPage extends StatelessWidget {
   final DeviceController deviceController = Get.put(DeviceController());
@@ -14,16 +15,14 @@ class DevicesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Devices',style: TextStyle(color: Colors.white),),
+        title: Text('Devices', style: TextStyle(color: Colors.white)),
         leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(Icons.arrow_back_ios,color: Colors.white,)
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
-        actions: [
-          logOutWidget()
-        ],
+        actions: [logOutWidget()],
       ),
       body: Column(
         children: [
@@ -45,97 +44,99 @@ class DevicesPage extends StatelessWidget {
               },
             ),
           ),
-          Obx(() => Container(
-            height: 50,
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => deviceController.changeTab(1),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
+          Obx(
+            () => Container(
+              height: 50,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => deviceController.changeTab(1),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
                               color: deviceController.selectedTabIndex.value == 1
                                   ? Colors.blue
                                   : Colors.transparent,
-                              width: 3
+                              width: 3,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
                                 Icons.check_circle_outline,
                                 color: deviceController.selectedTabIndex.value == 1
                                     ? Colors.blue
-                                    : Colors.grey
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Purchased (${deviceController.purchasedDevices.length})',
-                              style: TextStyle(
-                                color: deviceController.selectedTabIndex.value == 1
-                                    ? Colors.blue
                                     : Colors.grey,
-                                fontWeight: deviceController.selectedTabIndex.value == 1
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => deviceController.changeTab(0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                              color: deviceController.selectedTabIndex.value == 0
-                                  ? Colors.blue
-                                  : Colors.transparent,
-                              width: 3
+                              SizedBox(width: 8),
+                              Text(
+                                'Purchased (${deviceController.purchasedDevices.length})',
+                                style: TextStyle(
+                                  color: deviceController.selectedTabIndex.value == 1
+                                      ? Colors.blue
+                                      : Colors.grey,
+                                  fontWeight: deviceController.selectedTabIndex.value == 1
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => deviceController.changeTab(0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: deviceController.selectedTabIndex.value == 0
+                                  ? Colors.blue
+                                  : Colors.transparent,
+                              width: 3,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
                                 Icons.check_box,
                                 color: deviceController.selectedTabIndex.value == 0
                                     ? Colors.blue
-                                    : Colors.grey
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Available (${deviceController.devices.length-deviceController.purchasedDevices.length})',
-                              style: TextStyle(
-                                color: deviceController.selectedTabIndex.value == 0
-                                    ? Colors.blue
                                     : Colors.grey,
-                                fontWeight: deviceController.selectedTabIndex.value == 0
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 8),
+                              Text(
+                                'Available (${deviceController.devices.length - deviceController.purchasedDevices.length})',
+                                style: TextStyle(
+                                  color: deviceController.selectedTabIndex.value == 0
+                                      ? Colors.blue
+                                      : Colors.grey,
+                                  fontWeight: deviceController.selectedTabIndex.value == 0
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )),
+          ),
           Expanded(
             child: Obx(() {
               if (deviceController.isLoading.value) {
@@ -264,7 +265,10 @@ class DevicesPage extends StatelessWidget {
                                     ? NetworkImage(device['customerProfileImage'])
                                     : null,
                                 child: device['customerProfileImage'].isEmpty
-                                    ? Text(device['customerName'][0].toUpperCase(), style: TextStyle(fontSize: 8))
+                                    ? Text(
+                                        device['customerName'][0].toUpperCase(),
+                                        style: TextStyle(fontSize: 8),
+                                      )
                                     : null,
                               ),
                               SizedBox(width: 4),
@@ -291,10 +295,7 @@ class DevicesPage extends StatelessWidget {
                                     ),
                                     child: Text(
                                       device['status'],
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 12,
-                                      ),
+                                      style: TextStyle(color: statusColor, fontSize: 12),
                                     ),
                                   ),
                                   SizedBox(height: 4),
@@ -326,10 +327,8 @@ class DevicesPage extends StatelessWidget {
           ),
         ],
       ),
-      // floatingActionButton: ,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 24.0,left: 16,right: 16),
+        padding: const EdgeInsets.only(bottom: 24.0, left: 16, right: 16),
         child: SizedBox(
           width: double.infinity,
           child: FloatingActionButton.extended(

@@ -1,11 +1,10 @@
-
-import 'package:emi_management/customers/controllers/emi_controller.dart';
-import 'package:emi_management/customers/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/customers/controllers/emi_controller.dart';
+import 'package:untitled/customers/screens/profile_page.dart';
 
 class DeviceDetailsScreen extends StatelessWidget {
-   DeviceDetailsScreen({super.key});
+  DeviceDetailsScreen({super.key});
 
   final EMIController emiController = Get.put(EMIController());
 
@@ -14,15 +13,15 @@ class DeviceDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          Get.back();
-        }, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blue[700],
-        title: const Text(
-          'Device Details',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
+        title: const Text('Device Details', style: TextStyle(fontSize: 18, color: Colors.white)),
         elevation: 0,
         actions: [
           InkWell(
@@ -39,14 +38,14 @@ class DeviceDetailsScreen extends StatelessWidget {
             ),
             onTap: () {
               if (emiController.emiList.isNotEmpty && emiController.emiList[0]['loan_id'] != null) {
-                Get.to(() => const ProfilePage(), arguments: {
-                  'loan_id': emiController.emiList[0]['loan_id'],
-                });
+                Get.to(
+                  () => const ProfilePage(),
+                  arguments: {'loan_id': emiController.emiList[0]['loan_id']},
+                );
               } else {
                 Get.snackbar('Error', 'Loan ID not found for profile');
               }
             },
-
           ),
         ],
       ),
@@ -55,12 +54,7 @@ class DeviceDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                bottom: 15,
-                left: 20,
-                right: 20,
-              ),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 15, left: 20, right: 20),
               child: Center(
                 child: Container(
                   height: 200,
@@ -69,11 +63,7 @@ class DeviceDetailsScreen extends StatelessWidget {
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Image.asset(
-                    'assets/phone.png',
-                    height: 160,
-                    width: 160,
-                  ),
+                  child: Image.asset('assets/phone.png', height: 160, width: 160),
                 ),
               ),
             ),
@@ -125,10 +115,7 @@ class DeviceDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    'Active EMI Plan',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
+                  const Text('Active EMI Plan', style: TextStyle(fontSize: 14, color: Colors.grey)),
                 ],
               ),
             ),
@@ -144,11 +131,7 @@ class DeviceDetailsScreen extends StatelessWidget {
                   _buildDetailRow('EMI Amount', '₹10,825/month'),
                   _buildDetailRow('Total Tenure', '12 months'),
                   _buildDetailRow('EMIs Paid', '4 of 12'),
-                  _buildDetailRow(
-                    'Next Due Date',
-                    '15 Feb 2025',
-                    isColoredText: true,
-                  ),
+                  _buildDetailRow('Next Due Date', '15 Feb 2025', isColoredText: true),
                 ],
               ),
             ),
@@ -176,17 +159,10 @@ class DeviceDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    );
+    return Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
-  Widget _buildDetailRow(
-    String label,
-    String value, {
-    bool isColoredText = false,
-  }) {
+  Widget _buildDetailRow(String label, String value, {bool isColoredText = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(

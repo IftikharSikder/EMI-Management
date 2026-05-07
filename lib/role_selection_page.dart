@@ -1,9 +1,8 @@
-import 'package:emi_management/admin/screens/admin_login_page.dart';
-import 'package:emi_management/customers/screens/customer_login_screen.dart';
-
-import '';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'admin/screens/admin_login_page.dart';
+import 'customers/screens/customer_login_screen.dart';
 
 class RoleSelectionPage extends StatelessWidget {
   const RoleSelectionPage({Key? key}) : super(key: key);
@@ -28,11 +27,7 @@ class RoleSelectionPage extends StatelessWidget {
                   color: const Color(0xFF4E64F9),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  Icons.view_in_ar,
-                  color: Colors.white,
-                  size: 30,
-                ),
+                child: const Icon(Icons.view_in_ar, color: Colors.white, size: 30),
               ),
               const SizedBox(height: 20),
 
@@ -50,10 +45,7 @@ class RoleSelectionPage extends StatelessWidget {
               // Selection Text
               const Text(
                 'Please select your role to continue',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF64748B),
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF64748B)),
               ),
               const SizedBox(height: 24),
 
@@ -81,7 +73,7 @@ class RoleSelectionPage extends StatelessWidget {
                   icon: Icons.shield,
                   backgroundColor: const Color(0xFFAC8EFF),
                   onTap: () {
-                    Get.to(()=>AdminLoginPage());
+                    Get.to(() => AdminLoginPage());
                   },
                 ),
               ),
@@ -93,10 +85,7 @@ class RoleSelectionPage extends StatelessWidget {
                 children: [
                   const Text(
                     'Need help? ',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF64748B),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
                   ),
                   GestureDetector(
                     onTap: () {},
@@ -141,24 +130,17 @@ class RoleButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(12)),
         child: Row(
           children: [
             Container(
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: Icon(icon, color: Colors.white, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -175,19 +157,12 @@ class RoleButton extends StatelessWidget {
                   ),
                   Text(
                     description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withOpacity(0.8),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
                   ),
                 ],
               ),
             ),
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-              size: 24,
-            ),
+            const Icon(Icons.chevron_right, color: Colors.white, size: 24),
           ],
         ),
       ),

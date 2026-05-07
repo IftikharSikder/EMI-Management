@@ -1,12 +1,10 @@
-
-import 'package:emi_management/admin/screens/dashboard_page.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:random_string/random_string.dart';
+import 'package:untitled/admin/screens/dashboard_page.dart';
 
 class SellNewDeviceController extends GetxController {
-
   final FocusNode? currentFocus = null;
   // Form key for validation
   final formKey = GlobalKey<FormState>();
@@ -64,21 +62,19 @@ class SellNewDeviceController extends GetxController {
           .get();
 
       devicesList.value = devicesSnapshot.docs
-          .map((DocumentSnapshot doc) => {
-        'id': doc.id,
-        'device_name': doc['device_name'],
-        'img_url': doc['img_url'],
-        'unit_price': doc['unit_price'],
-        'available_quantity': doc['available_quantity'],
-      })
+          .map(
+            (DocumentSnapshot doc) => {
+              'id': doc.id,
+              'device_name': doc['device_name'],
+              'img_url': doc['img_url'],
+              'unit_price': doc['unit_price'],
+              'available_quantity': doc['available_quantity'],
+            },
+          )
           .toList();
     } catch (e) {
       //print('Error fetching devices: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to load devices: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', 'Failed to load devices: $e', snackPosition: SnackPosition.BOTTOM);
     }
 
     isLoading.value = false;
@@ -138,11 +134,7 @@ class SellNewDeviceController extends GetxController {
       }
     } catch (e) {
       //print('Error checking customer: $e');
-      Get.snackbar(
-        'Error',
-        'Failed to check customer: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', 'Failed to check customer: $e', snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -170,9 +162,7 @@ class SellNewDeviceController extends GetxController {
 
     // More strict email regex that checks for valid domains
     // This regex checks that the domain part has at least one period and that the TLD is at least 2 characters
-    final emailRegex = RegExp(
-        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    );
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
     // Additional check for common email domains
     if (email.endsWith('@gmail.co') ||
@@ -246,11 +236,7 @@ class SellNewDeviceController extends GetxController {
       // Mark password as generated
       passwordGenerated.value = true;
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to generate password: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', 'Failed to generate password: $e', snackPosition: SnackPosition.BOTTOM);
     } finally {
       isGeneratingPassword.value = false;
     }
@@ -258,13 +244,16 @@ class SellNewDeviceController extends GetxController {
 
   // Handle form submission
   Future<void> handleSubmit() async {
-
-    if(totalMonthController.text.length==0){
-      Get.snackbar("Empty", "Please enter total month",backgroundColor: Colors.blue.shade600, // Matches blue AppBar
+    if (totalMonthController.text.length == 0) {
+      Get.snackbar(
+        "Empty",
+        "Please enter total month",
+        backgroundColor: Colors.blue.shade600, // Matches blue AppBar
         colorText: Colors.white, // Ensures readability
-        snackPosition: SnackPosition.BOTTOM,);
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
-    if(totalMonthController.text==0){
+    if (totalMonthController.text == 0) {
       Get.snackbar("", "Months must be greater than 0");
     }
     // Enable validation
@@ -302,11 +291,7 @@ class SellNewDeviceController extends GetxController {
     }
 
     if (selectedDevice.value == null) {
-      Get.snackbar(
-        'Error',
-        'Please select a device',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', 'Please select a device', snackPosition: SnackPosition.BOTTOM);
       return;
     }
 
@@ -321,12 +306,12 @@ class SellNewDeviceController extends GetxController {
         DocumentReference newCustomerRef = await FirebaseFirestore.instance
             .collection('customers')
             .add({
-          'email': emailController.text,
-          'id': nextCustomerId.value,
-          'name': nameController.text,
-          'password': passwordController.text,
-          'phone': completePhoneNumber.value,
-        });
+              'email': emailController.text,
+              'id': nextCustomerId.value,
+              'name': nameController.text,
+              'password': passwordController.text,
+              'phone': completePhoneNumber.value,
+            });
         customerId = newCustomerRef.id;
       } else {
         // Get existing customer ID
@@ -352,9 +337,7 @@ class SellNewDeviceController extends GetxController {
         await deviceRef.delete();
       } else {
         // Otherwise decrease the quantity
-        await deviceRef.update({
-          'available_quantity': FieldValue.increment(-1),
-        });
+        await deviceRef.update({'available_quantity': FieldValue.increment(-1)});
       }
 
       // 3. Create new loan document
@@ -376,27 +359,16 @@ class SellNewDeviceController extends GetxController {
         colorText: Colors.white,
       );
 
-      // Clear controller on successful submit
       clearForm();
-
-      // Navigate to Dashboard with offAll to clear navigation stack
       Get.offAll(() => DashboardPage());
-
     } catch (e) {
-      //print('Error in transaction: $e');
-      Get.snackbar(
-        'Error',
-        'Transaction failed: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar('Error', 'Transaction failed: $e', snackPosition: SnackPosition.BOTTOM);
     }
 
     isLoading.value = false;
   }
 
-  // Reset form action for button
   void resetForm() {
-    // Disable validation first to prevent errors on reset
     showValidation.value = false;
 
     if (Get.focusScope != null) {

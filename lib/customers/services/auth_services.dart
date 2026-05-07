@@ -1,9 +1,8 @@
-import 'package:emi_management/customers/models/customer_model.dart';
-import 'package:emi_management/customers/screens/emi_reminder_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/customers/models/customer_model.dart';
 
 class SignupController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

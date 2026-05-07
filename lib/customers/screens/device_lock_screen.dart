@@ -1,17 +1,12 @@
-import 'package:emi_management/utils/static_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/utils/static_strings.dart';
 
 class DeviceLockedScreen extends StatelessWidget {
   final DateTime? dueDate;
   final double? amountDue;
 
-  const DeviceLockedScreen({
-    super.key,
-    this.dueDate,
-    this.amountDue,
-  });
+  const DeviceLockedScreen({super.key, this.dueDate, this.amountDue});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +19,20 @@ class DeviceLockedScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          // Get.back();
-        }, icon: Icon(Icons.arrow_back_ios,color: Colors.white,)),
+        leading: IconButton(
+          onPressed: () {
+            // Get.back();
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+        ),
         title: Text(AppStrings.auroratEMIsManager, style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
         centerTitle: true,
         actions: [
-          IconButton(icon: Icon(Icons.lock, color: Colors.white), onPressed: () {})
+          IconButton(
+            icon: Icon(Icons.lock, color: Colors.white),
+            onPressed: () {},
+          ),
         ],
       ),
       body: Container(
@@ -51,28 +52,17 @@ class DeviceLockedScreen extends StatelessWidget {
                       color: Colors.red.withAlpha(25),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.warning_amber_rounded,
-                      color: Colors.red,
-                      size: 40,
-                    ),
+                    child: Icon(Icons.warning_amber_rounded, color: Colors.red, size: 40),
                   ),
                   SizedBox(height: 16),
                   Text(
                     'Device Locked',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
                   ),
                   SizedBox(height: 8),
                   Text(
                     'Your EMI payment is overdue',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                   ),
                   SizedBox(height: 16),
                   Row(
@@ -83,17 +73,11 @@ class DeviceLockedScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Due Date:',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                            ),
+                            style: TextStyle(color: Colors.grey[600], fontSize: 14),
                           ),
                           Text(
                             'Amount Due:',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 14,
-                            ),
+                            style: TextStyle(color: Colors.grey[600], fontSize: 14),
                           ),
                         ],
                       ),
@@ -102,18 +86,12 @@ class DeviceLockedScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            formattedDate,  // Dynamic date
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                            formattedDate, // Dynamic date
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           Text(
-                            formattedAmount,  // Dynamic amount
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                            formattedAmount, // Dynamic amount
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                         ],
                       ),
@@ -121,14 +99,12 @@ class DeviceLockedScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     ),
-                    child: Text('Pay Now to Unlock',style: TextStyle(color: Colors.white),),
+                    child: Text('Pay Now to Unlock', style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),
@@ -141,10 +117,7 @@ class DeviceLockedScreen extends StatelessWidget {
                 children: [
                   Text(
                     'How to Restore Access:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
 
@@ -161,17 +134,12 @@ class DeviceLockedScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             '1',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       SizedBox(width: 12),
-                      Expanded(
-                        child: Text('Complete the pending EMI payment'),
-                      ),
+                      Expanded(child: Text('Complete the pending EMI payment')),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -189,17 +157,12 @@ class DeviceLockedScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             '2',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       SizedBox(width: 12),
-                      Expanded(
-                        child: Text('Wait for payment confirmation (2-3 minutes)'),
-                      ),
+                      Expanded(child: Text('Wait for payment confirmation (2-3 minutes)')),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -217,30 +180,19 @@ class DeviceLockedScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             '3',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       SizedBox(width: 12),
-                      Expanded(
-                        child: Text('Device will automatically unlock'),
-                      ),
+                      Expanded(child: Text('Device will automatically unlock')),
                     ],
                   ),
 
                   SizedBox(height: 32),
 
                   // Help section
-                  Text(
-                    'Need Help?',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text('Need Help?', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   SizedBox(height: 12),
 
                   Row(
@@ -259,10 +211,7 @@ class DeviceLockedScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.email_outlined, size: 16, color: Colors.grey[600]),
                       SizedBox(width: 8),
-                      Text(
-                        'Email: support@aurora.com',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
+                      Text('Email: support@aurora.com', style: TextStyle(color: Colors.grey[700])),
                     ],
                   ),
                   SizedBox(height: 8),
@@ -271,10 +220,7 @@ class DeviceLockedScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.help_outline, size: 16, color: Colors.grey[600]),
                       SizedBox(width: 8),
-                      Text(
-                        'View FAQs',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
+                      Text('View FAQs', style: TextStyle(color: Colors.grey[700])),
                     ],
                   ),
                 ],

@@ -1,9 +1,10 @@
-import 'package:emi_management/admin/screens/Customer_profile.dart';
-import 'package:emi_management/admin/screens/add_new_customer.dart';
-import 'package:emi_management/utils/widgets/log_out_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/utils/widgets/log_out_widget.dart';
+
 import '../controllers/customer_controller.dart';
+import 'Customer_profile.dart';
+import 'add_new_customer.dart';
 
 class CustomersScreen extends StatelessWidget {
   final CustomerController customerController = Get.put(CustomerController());
@@ -24,9 +25,7 @@ class CustomersScreen extends StatelessWidget {
           },
         ),
         title: Text('Customers', style: TextStyle(color: Colors.white)),
-        actions: [
-          logOutWidget()
-        ],
+        actions: [logOutWidget()],
       ),
       body: Column(
         children: [
@@ -35,15 +34,17 @@ class CustomersScreen extends StatelessWidget {
             padding: EdgeInsets.all(8),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Obx(() => Row(
-                children: [
-                  _buildFilterTab('All Customers (${customerController.customers.length})'),
-                  SizedBox(width: 10),
-                  _buildFilterTab('Active EMI (${_getActiveEmiCustomersCount()})'),
-                  SizedBox(width: 10),
-                  _buildFilterTab('Paid Off (${_getPaidOffCustomersCount()})'),
-                ],
-              )),
+              child: Obx(
+                () => Row(
+                  children: [
+                    _buildFilterTab('All Customers (${customerController.customers.length})'),
+                    SizedBox(width: 10),
+                    _buildFilterTab('Active EMI (${_getActiveEmiCustomersCount()})'),
+                    SizedBox(width: 10),
+                    _buildFilterTab('Paid Off (${_getPaidOffCustomersCount()})'),
+                  ],
+                ),
+              ),
             ),
           ),
           // Customer list
@@ -87,9 +88,7 @@ class CustomersScreen extends StatelessWidget {
                       backgroundImage: customer['profileImage'] != null
                           ? NetworkImage(customer['profileImage'])
                           : null,
-                      child: customer['profileImage'] == null
-                          ? Text(customer['name'][0])
-                          : null,
+                      child: customer['profileImage'] == null ? Text(customer['name'][0]) : null,
                     ),
                     title: Text(customer['name']),
                     subtitle: Text('$deviceCount devices purchased'),
@@ -99,10 +98,7 @@ class CustomersScreen extends StatelessWidget {
                         color: statusColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
-                        statusText,
-                        style: TextStyle(color: statusColor),
-                      ),
+                      child: Text(statusText, style: TextStyle(color: statusColor)),
                     ),
                     onTap: () {
                       Get.to(() => CustomerProfileScreen(customerId: customerId));
@@ -153,9 +149,7 @@ class CustomersScreen extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 9, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.blue.shade100
-              : Colors.grey.shade200,
+          color: isSelected ? Colors.blue.shade100 : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(filterName),

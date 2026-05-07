@@ -1,9 +1,9 @@
-import 'package:emi_management/role_selection_page.dart';
-import 'package:emi_management/utils/methods/logout_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled/role_selection_page.dart';
+import 'package:untitled/utils/methods/logout_user.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,7 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-     getdata();
+    getdata();
   }
 
   String? email;
@@ -58,7 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           const CircleAvatar(
                             radius: 35,
-                            backgroundImage: NetworkImage('https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
+                            backgroundImage: NetworkImage(
+                              'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -113,9 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Card(
                       color: Colors.white,
                       margin: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           buildListTile(
@@ -155,16 +154,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     Card(
                       color: Colors.white,
                       margin: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
-                          buildListTile(
-                            icon: Icons.lock,
-                            title: 'Change PIN',
-                            hasTrailing: true,
-                          ),
+                          buildListTile(icon: Icons.lock, title: 'Change PIN', hasTrailing: true),
                           const Divider(height: 1, indent: 56),
                           buildSwitchTile(
                             icon: Icons.security,
@@ -193,13 +186,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Get.dialog(
                   AlertDialog(
                     backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    title: const Text(
-                      "Logout",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    title: const Text("Logout", style: TextStyle(fontWeight: FontWeight.bold)),
                     content: const Text("Are you sure you want to logout?"),
                     actions: [
                       Row(
@@ -217,10 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 borderRadius: BorderRadius.circular(18),
                               ),
                             ),
-                            child: const Text(
-                              "Yes",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: const Text("Yes", style: TextStyle(color: Colors.white)),
                           ),
                           TextButton(
                             style: ElevatedButton.styleFrom(
@@ -230,10 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             onPressed: () => Get.back(),
-                            child: const Text(
-                              "No",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: const Text("No", style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -252,23 +234,26 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  Icon(Icons.logout, size: 18, color: Colors.white,),
+                  Icon(Icons.logout, size: 18, color: Colors.white),
                   SizedBox(width: 8),
-                  Text('Log Out', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Log Out',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
-      )
+      ),
     );
   }
 
-  Widget buildListTile({
-    required IconData icon,
-    required String title,
-    required bool hasTrailing,
-  }) {
+  Widget buildListTile({required IconData icon, required String title, required bool hasTrailing}) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue),
       title: Text(title),

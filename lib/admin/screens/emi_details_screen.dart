@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emi_management/utils/widgets/log_out_widget.dart';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:untitled/utils/widgets/log_out_widget.dart';
 
 class EMIDetailsPage extends StatelessWidget {
   final Map<String, dynamic> loan;
@@ -12,13 +11,9 @@ class EMIDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate EMI details
     final totalAmount = loan['totalAmount'] as double;
     final totalMonths = loan['totalMonths'] as int;
     final monthlyEMI = totalAmount / totalMonths;
-
-    // Get transaction history from the loan data
-    // Handle transaction_history as an array instead of map
     final List<dynamic> transactionHistory = loan['transactionHistory'] is List
         ? loan['transactionHistory']
         : [];
@@ -31,18 +26,16 @@ class EMIDetailsPage extends StatelessWidget {
     final purchaseDate = loan['purchaseDate'] as DateTime;
     final formattedPurchaseDate = DateFormat('dd MMM, yyyy').format(purchaseDate);
 
-    // Sort transactions by date for payment history (newest first)
     final List<Map<String, dynamic>> sortedTransactions = [];
 
-    // Convert the array of timestamps to a structured list with needed information
     for (int i = 0; i < transactionHistory.length; i++) {
       if (transactionHistory[i] is Timestamp) {
         final DateTime paymentDate = (transactionHistory[i] as Timestamp).toDate();
         sortedTransactions.add({
           'installmentNumber': i + 1,
           'date': paymentDate,
-          'amount': monthlyEMI, // Since we don't have specific amounts, use the monthly EMI
-          'status': 'Completed'
+          'amount': monthlyEMI,
+          'status': 'Completed',
         });
       }
     }
@@ -53,14 +46,12 @@ class EMIDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('EMI Details',style: TextStyle(color: Colors.white),),
+        title: Text('EMI Details', style: TextStyle(color: Colors.white)),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,color: Colors.white,),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Get.back(),
         ),
-        actions: [
-          logOutWidget()
-        ],
+        actions: [logOutWidget()],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -77,10 +68,7 @@ class EMIDetailsPage extends StatelessWidget {
                     children: [
                       Text(
                         loan['deviceName'],
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -115,20 +103,21 @@ class EMIDetailsPage extends StatelessWidget {
                 children: [
                   Text(
                     'Customer Details',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
                   Row(
                     children: [
                       CircleAvatar(
                         radius: 24,
-                        backgroundImage: loan['customerProfileImage'] != null && loan['customerProfileImage'].isNotEmpty
+                        backgroundImage:
+                            loan['customerProfileImage'] != null &&
+                                loan['customerProfileImage'].isNotEmpty
                             ? NetworkImage(loan['customerProfileImage'])
                             : null,
-                        child: loan['customerProfileImage'] == null || loan['customerProfileImage'].isEmpty
+                        child:
+                            loan['customerProfileImage'] == null ||
+                                loan['customerProfileImage'].isEmpty
                             ? Text(loan['customerName'][0].toUpperCase())
                             : null,
                       ),
@@ -138,10 +127,7 @@ class EMIDetailsPage extends StatelessWidget {
                         children: [
                           Text(
                             loan['customerName'],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text('Customer ID: ${loan['customerId'].substring(0, 8)}'),
                           if (loan['customerPhone'] != null)
@@ -168,20 +154,11 @@ class EMIDetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'EMI Status',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text('EMI Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Total EMIs'),
-                      Text('$totalMonths months'),
-                    ],
+                    children: [Text('Total EMIs'), Text('$totalMonths months')],
                   ),
                   SizedBox(height: 8),
                   ClipRRect(
@@ -196,15 +173,20 @@ class EMIDetailsPage extends StatelessWidget {
                   SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Paid: $paidEMIs'),
-                      Text('Remaining: $remainingEMIs'),
-                    ],
+                    children: [Text('Paid: $paidEMIs'), Text('Remaining: $remainingEMIs')],
                   ),
                   SizedBox(height: 16),
                   _buildInfoRow('Monthly EMI Amount', '\₹${monthlyEMI.toStringAsFixed(2)}'),
-                  _buildInfoRow('Total Paid Amount', '\₹${paidAmount.toStringAsFixed(2)}', textColor: Colors.green),
-                  _buildInfoRow('Remaining Amount', '\₹${remainingAmount.toStringAsFixed(2)}', textColor: Colors.red),
+                  _buildInfoRow(
+                    'Total Paid Amount',
+                    '\₹${paidAmount.toStringAsFixed(2)}',
+                    textColor: Colors.green,
+                  ),
+                  _buildInfoRow(
+                    'Remaining Amount',
+                    '\₹${remainingAmount.toStringAsFixed(2)}',
+                    textColor: Colors.red,
+                  ),
                 ],
               ),
             ),
@@ -219,10 +201,7 @@ class EMIDetailsPage extends StatelessWidget {
                 children: [
                   Text(
                     'Payment History',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
                   // Dynamic payment history items from transaction history
@@ -234,10 +213,10 @@ class EMIDetailsPage extends StatelessWidget {
                     final String status = transaction['status'] as String;
 
                     return _buildPaymentHistoryItem(
-                        installmentNumber,
-                        formattedDate,
-                        amount,
-                        status
+                      installmentNumber,
+                      formattedDate,
+                      amount,
+                      status,
                     );
                   }).toList(),
 
@@ -263,10 +242,14 @@ class EMIDetailsPage extends StatelessWidget {
           width: double.infinity,
           child: FloatingActionButton.extended(
             onPressed: () {
-             // Get.to(() => AddNewCustomer());
+              // Get.to(() => AddNewCustomer());
             },
             label: Text('Confirm Payment', style: TextStyle(color: Colors.white, fontSize: 18)),
-            backgroundColor: loan['status']=="Active"?Colors.blue:loan['status']=="Overdue"?Colors.blue:Colors.grey,
+            backgroundColor: loan['status'] == "Active"
+                ? Colors.blue
+                : loan['status'] == "Overdue"
+                ? Colors.blue
+                : Colors.grey,
           ),
         ),
       ),
@@ -280,23 +263,22 @@ class EMIDetailsPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(color: Colors.grey[600]),
-          ),
+          Text(label, style: TextStyle(color: Colors.grey[600])),
           Text(
             value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPaymentHistoryItem(int installmentNumber, String date, double amount, String status) {
+  Widget _buildPaymentHistoryItem(
+    int installmentNumber,
+    String date,
+    double amount,
+    String status,
+  ) {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       padding: EdgeInsets.all(12),
@@ -309,17 +291,11 @@ class EMIDetailsPage extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(
-              color: Colors.blue.shade100,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: Colors.blue.shade100, shape: BoxShape.circle),
             child: Center(
               child: Text(
                 '$installmentNumber',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ),
             ),
           ),
@@ -332,27 +308,15 @@ class EMIDetailsPage extends StatelessWidget {
                   'Installment $installmentNumber',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  date,
-                  style: TextStyle(color: Colors.grey),
-                ),
+                Text(date, style: TextStyle(color: Colors.grey)),
               ],
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                '\$${amount.toStringAsFixed(2)}',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                status,
-                style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 12,
-                ),
-              ),
+              Text('\$${amount.toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(status, style: TextStyle(color: Colors.green, fontSize: 12)),
             ],
           ),
         ],

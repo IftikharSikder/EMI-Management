@@ -1,11 +1,10 @@
-import 'package:emi_management/admin/screens/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/admin/screens/dashboard_page.dart';
+import 'package:untitled/admin/services/auth_service.dart';
 
 class AuthController extends GetxController {
-
   final isPasswordVisible = false.obs;
 
   final AuthService _authService = AuthService();
@@ -17,7 +16,7 @@ class AuthController extends GetxController {
   final passwordError = RxString('');
   final isLoading = RxBool(false);
 
-  void validateAndLogin() async{
+  void validateAndLogin() async {
     // Reset errors
     emailError.value = '';
     passwordError.value = '';
@@ -44,15 +43,14 @@ class AuthController extends GetxController {
     isLoading.value = true;
 
     bool loginSuccess = await _authService.validateLogin(
-        emailController.text.trim(),
-        passwordController.text.trim()
+      emailController.text.trim(),
+      passwordController.text.trim(),
     );
 
     isLoading.value = false;
 
     if (loginSuccess) {
-      // Navigate to dashboard on successful login
-     await _saveAdminSession(emailController.text,passwordController.text);
+      await _saveAdminSession(emailController.text, passwordController.text);
       Get.off(() => DashboardPage());
     } else {
       Get.snackbar(
@@ -73,13 +71,12 @@ class AuthController extends GetxController {
   }
 }
 
-
 Future<void> _saveAdminSession(String email, String password) async {
   print("----------------------------This is called");
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.setBool("isLogin", true);
-  pref.setString("userRole",email);
-  pref.setString("userRole","admin");
+  pref.setString("userRole", email);
+  pref.setString("userRole", "admin");
   pref.setString("email", email);
   pref.setString("password", password);
   //pref.setString("customerId", customerId);

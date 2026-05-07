@@ -1,12 +1,12 @@
-import 'package:emi_management/admin/screens/dashboard_page.dart';
-import 'package:emi_management/customers/screens/emi_reminder_screen.dart';
-import 'package:emi_management/role_selection_page.dart';
-import 'package:emi_management/utils/methods/checkUserCredentials.dart';
-import 'package:emi_management/utils/static_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../customers/services/auth_services.dart';
+import 'package:untitled/role_selection_page.dart';
+import 'package:untitled/utils/methods/checkUserCredentials.dart';
+import 'package:untitled/utils/static_strings.dart';
 
+import '../customers/services/auth_services.dart';
+import 'admin/screens/dashboard_page.dart';
+import 'customers/screens/emi_reminder_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,37 +23,29 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 1),
-      vsync: this,
-    )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0, end: 10).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _controller = AnimationController(duration: Duration(seconds: 1), vsync: this)
+      ..repeat(reverse: true);
+    _animation = Tween<double>(
+      begin: 0,
+      end: 10,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
-    Future.delayed(const Duration(seconds: 3), () async{
+    Future.delayed(const Duration(seconds: 3), () async {
       //userRole="admin";//this should be removed
       if (isLogin == true) {
-        if(userRole=="customer"){
+        if (userRole == "customer") {
           bool isValid = await checkUserCredentials(userEmail, userPassWord);
-          if(isValid){
+          if (isValid) {
             Get.offAll(EMIReminderScreen());
-          }
-          else{
+          } else {
             Get.offAll(RoleSelectionPage());
           }
-        }
-        else if(userRole=="admin"){
-
+        } else if (userRole == "admin") {
           bool isValid = await checkAdminCredentials(userEmail, userPassWord);
-          if(isValid){
+          if (isValid) {
             Get.offAll(DashboardPage());
           }
-        }
-        else{
+        } else {
           Get.offAll(RoleSelectionPage());
         }
       } else {
@@ -128,11 +120,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                             child: child,
                           );
                         },
-                        child: Icon(
-                          Icons.attach_money_rounded,
-                          color: Colors.white,
-                          size: 40,
-                        ),
+                        child: Icon(Icons.attach_money_rounded, color: Colors.white, size: 40),
                       ),
                     ),
                   ),
@@ -148,10 +136,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   const SizedBox(height: 8),
                   const Text(
                     AppStrings.slogan,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
                   ),
                   const SizedBox(height: 40),
                   const CircularProgressIndicator(
@@ -160,10 +145,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   const SizedBox(height: 16),
                   const Text(
                     AppStrings.splashProgress,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
                 ],
               ),
@@ -179,28 +161,19 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   ),
                   const SizedBox(width: 4),
                   Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   ),
                   const SizedBox(width: 4),
                   Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   ),
                 ],
               ),

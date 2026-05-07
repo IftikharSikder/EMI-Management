@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emi_management/customers/screens/emi_reminder_screen.dart';
-import 'package:emi_management/customers/screens/signup_screen.dart';
-import 'package:emi_management/role_selection_page.dart';
-import 'package:emi_management/utils/static_strings.dart';
-import 'package:emi_management/utils/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/role_selection_page.dart';
+import 'package:untitled/utils/static_strings.dart';
+import 'package:untitled/utils/widgets/custom_button.dart';
 
-
-
+import 'emi_reminder_screen.dart';
 
 class CustomerLoginScreen extends StatefulWidget {
   const CustomerLoginScreen({super.key});
@@ -19,7 +16,6 @@ class CustomerLoginScreen extends StatefulWidget {
 }
 
 class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -52,7 +48,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
           final customerData = querySnapshot.docs.first.data() as Map<String, dynamic>;
 
           if (customerData['password'] == password) {
-            await _saveUserSession(email, querySnapshot.docs.first.id,password);
+            await _saveUserSession(email, querySnapshot.docs.first.id, password);
             Get.offAll(() => EMIReminderScreen());
           } else {
             _showErrorSnackbar('Invalid email or password');
@@ -71,10 +67,10 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   }
 
   // Helper methods
-  Future<void> _saveUserSession(String email, String customerId,password) async {
+  Future<void> _saveUserSession(String email, String customerId, password) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool("isLogin", true);
-    pref.setString("userRole","customer");
+    pref.setString("userRole", "customer");
     pref.setString("email", email);
     pref.setString("password", password);
     pref.setString("customerId", customerId);
@@ -111,29 +107,15 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
             color: Colors.deepPurple,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Icon(
-            Icons.help_outline,
-            color: Colors.white,
-            size: 32,
-          ),
+          child: const Icon(Icons.help_outline, color: Colors.white, size: 32),
         ),
         const SizedBox(height: 16),
         const Text(
           AppStrings.auroraEMICustomer,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87),
         ),
         const SizedBox(height: 8),
-        const Text(
-          'Welcome back',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-          ),
-        ),
+        const Text('Welcome back', style: TextStyle(fontSize: 16, color: Colors.black54)),
       ],
     );
   }
@@ -142,13 +124,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Email address',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        const Text('Email address', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
         TextFormField(
           controller: _emailController,
@@ -182,13 +158,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Password',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        const Text('Password', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
         TextFormField(
           controller: _passwordController,
@@ -230,11 +200,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-          ),
+          BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 10),
         ],
       ),
       child: Column(
@@ -244,11 +210,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
           const SizedBox(height: 16),
           _buildPasswordField(),
           const SizedBox(height: 24),
-          CustomButton(
-            text: 'Sign in securely',
-            isLoading: _isLoading,
-            onPressed: _signIn,
-          ),
+          CustomButton(text: 'Sign in securely', isLoading: _isLoading, onPressed: _signIn),
           const SizedBox(height: 16),
           _buildSignupLink(),
           const SizedBox(height: 24),
@@ -259,17 +221,14 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
 
   Widget _buildSignupLink() {
     return GestureDetector(
-        onTap: _navigateToUserRole,
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            "You're not a customer? Click Here",
-            style: TextStyle(
-              color: Colors.deepPurple,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        )
+      onTap: _navigateToUserRole,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
+          "You're not a customer? Click Here",
+          style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w500),
+        ),
+      ),
     );
   }
 
@@ -286,11 +245,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildAppLogo(),
-                  const SizedBox(height: 36),
-                  _buildLoginForm(),
-                ],
+                children: [_buildAppLogo(), const SizedBox(height: 36), _buildLoginForm()],
               ),
             ),
           ),

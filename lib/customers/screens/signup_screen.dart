@@ -1,11 +1,11 @@
-import 'package:emi_management/customers/services/auth_services.dart';
-import 'package:emi_management/utils/static_strings.dart';
-import 'package:emi_management/utils/widgets/custom_button.dart';
-import 'package:emi_management/utils/widgets/custom_text_field.dart';
-import 'package:emi_management/utils/widgets/progress_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:untitled/customers/services/auth_services.dart';
+import 'package:untitled/utils/static_strings.dart';
+import 'package:untitled/utils/widgets/custom_button.dart';
+import 'package:untitled/utils/widgets/custom_text_field.dart';
+import 'package:untitled/utils/widgets/progress_stepper.dart';
 
 class SignupScreen extends StatelessWidget {
   final SignupController controller = Get.put(SignupController());
@@ -39,7 +39,7 @@ class SignupScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Obx(
-                        () => ProgressStepper(
+                    () => ProgressStepper(
                       completedSteps: controller.completedStepsCount,
                       totalSteps: 4,
                       stepTitle: controller.currentStepName.value,
@@ -49,7 +49,7 @@ class SignupScreen extends StatelessWidget {
                   SizedBox(height: 24),
 
                   Obx(
-                        () => CustomTextField(
+                    () => CustomTextField(
                       label: AppStrings.fullName,
                       hint: AppStrings.fullNameHint,
                       controller: controller.fullNameController,
@@ -59,8 +59,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      suffixIcon:
-                      controller.nameValid.value
+                      suffixIcon: controller.nameValid.value
                           ? Icon(Icons.check_circle, color: Colors.green)
                           : null,
                     ),
@@ -68,7 +67,7 @@ class SignupScreen extends StatelessWidget {
                   SizedBox(height: 16),
 
                   Obx(
-                        () => CustomTextField(
+                    () => CustomTextField(
                       label: AppStrings.enterEmail,
                       hint: AppStrings.emailHint,
                       controller: controller.emailController,
@@ -82,8 +81,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      suffixIcon:
-                      controller.emailValid.value
+                      suffixIcon: controller.emailValid.value
                           ? Icon(Icons.check_circle, color: Colors.green)
                           : null,
                     ),
@@ -103,34 +101,24 @@ class SignupScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Obx(
-                            () => IntlPhoneField(
+                        () => IntlPhoneField(
                           controller: controller.phoneController,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue.withValues(alpha: .2),
-                              ),
+                              borderSide: BorderSide(color: Colors.blue.withValues(alpha: .2)),
                             ),
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(),
                             hintText: AppStrings.phoneHint,
                             errorText: null,
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                            suffixIcon:
-                            controller.phoneValid.value
-                                ? Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
+                            contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                            suffixIcon: controller.phoneValid.value
+                                ? Icon(Icons.check_circle, color: Colors.green)
                                 : null,
                           ),
                           initialCountryCode: 'IN',
-                          invalidNumberMessage:
-                         AppStrings.phoneValidateErrorText,
+                          invalidNumberMessage: AppStrings.phoneValidateErrorText,
                           onChanged: (phone) {
                             controller.updatePhoneValidation(phone.number);
                             controller.fullPhoneNumber = '${phone.countryCode}${phone.number}';
@@ -147,7 +135,7 @@ class SignupScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                       AppStrings.createPassword,
+                        AppStrings.createPassword,
                         style: TextStyle(
                           color: Colors.grey.shade800,
                           fontWeight: FontWeight.w500,
@@ -156,7 +144,7 @@ class SignupScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Obx(
-                            () => TextFormField(
+                        () => TextFormField(
                           controller: controller.passwordController,
                           obscureText: !controller.showPassword.value,
                           validator: (value) {
@@ -173,9 +161,7 @@ class SignupScreen extends StatelessWidget {
                           },
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue.withValues(alpha: .2),
-                              ),
+                              borderSide: BorderSide(color: Colors.blue.withValues(alpha: .2)),
                             ),
                             filled: true,
                             fillColor: Colors.white,
@@ -187,11 +173,7 @@ class SignupScreen extends StatelessWidget {
                                 if (controller.passwordValid.value)
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      size: 20,
-                                      color: Colors.green,
-                                    ),
+                                    child: Icon(Icons.check_circle, size: 20, color: Colors.green),
                                   ),
                                 IconButton(
                                   icon: Icon(
@@ -200,8 +182,7 @@ class SignupScreen extends StatelessWidget {
                                         : Icons.visibility,
                                     color: Colors.grey,
                                   ),
-                                  onPressed:
-                                  controller.togglePasswordVisibility,
+                                  onPressed: controller.togglePasswordVisibility,
                                 ),
                               ],
                             ),
@@ -210,7 +191,7 @@ class SignupScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 12),
                       Obx(
-                            () => Column(
+                        () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             LinearProgressIndicator(
@@ -243,19 +224,12 @@ class SignupScreen extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.warning_amber_rounded,
-                          color: Colors.amber.shade700,
-                          size: 20,
-                        ),
+                        Icon(Icons.warning_amber_rounded, color: Colors.amber.shade700, size: 20),
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             AppStrings.termsAndConditionAgreementMessage,
-                            style: TextStyle(
-                              color: Colors.grey.shade800,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.grey.shade800, fontSize: 12),
                           ),
                         ),
                       ],
@@ -265,11 +239,12 @@ class SignupScreen extends StatelessWidget {
 
                   // Continue Button
                   Obx(
-                        () => CustomButton(
+                    () => CustomButton(
                       text: AppStrings.continueText,
                       isLoading: controller.isLoading.value,
                       onPressed: () {
-                        if (controller.formKey.currentState!.validate() && controller.phoneValid.value) {
+                        if (controller.formKey.currentState!.validate() &&
+                            controller.phoneValid.value) {
                           controller.createAccount();
                         }
                       },

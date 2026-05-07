@@ -1,8 +1,8 @@
 
-import 'package:emi_management/role_selection_page.dart';
-import 'package:emi_management/utils/methods/logout_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/role_selection_page.dart';
+import 'package:untitled/utils/methods/logout_user.dart';
 
 logOutWidget(){
   return IconButton(onPressed: (){

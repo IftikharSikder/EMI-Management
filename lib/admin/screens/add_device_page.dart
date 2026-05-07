@@ -1,7 +1,7 @@
-import 'package:emi_management/admin/controllers/add_device_controller.dart';
-import 'package:emi_management/admin/controllers/device_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/admin/controllers/add_device_controller.dart';
+import 'package:untitled/admin/controllers/device_controller.dart';
 
 class AddDevicePage extends StatefulWidget {
   @override
@@ -80,8 +80,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
 
       if (mounted) {
         setState(() {
-          deviceNameError =
-              isUnique ? null : 'A device with this name already exists';
+          deviceNameError = isUnique ? null : 'A device with this name already exists';
           isValidating = false;
         });
       }
@@ -127,25 +126,18 @@ class _AddDevicePageState extends State<AddDevicePage> {
                     controller: deviceNameController,
                     decoration: InputDecoration(
                       hintText: 'Enter device model name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                       errorText: deviceNameError,
-                      suffixIcon:
-                          isValidating
-                              ? Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              : null,
+                      suffixIcon: isValidating
+                          ? Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                              ),
+                            )
+                          : null,
                     ),
                   ),
                   SizedBox(height: 24),
@@ -160,9 +152,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                     controller: priceController,
                     decoration: InputDecoration(
                       hintText: '0.00',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Text('\₹', style: TextStyle(fontSize: 16)),
@@ -182,27 +172,20 @@ class _AddDevicePageState extends State<AddDevicePage> {
                     controller: unitsController,
                     decoration: InputDecoration(
                       hintText: 'Enter total unites',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 24),
 
                   // Image URL Field
-                  Text(
-                    'Image URL',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
+                  Text('Image URL', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   SizedBox(height: 8),
                   TextField(
                     controller: imageUrlController,
                     decoration: InputDecoration(
                       hintText: 'Enter image URL',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                   SizedBox(height: 40),
@@ -212,90 +195,72 @@ class _AddDevicePageState extends State<AddDevicePage> {
           ),
           // Full screen loading overlay
           Obx(
-            () =>
-                isSubmitting.value
-                    ? Container(
-                      color: Colors.black.withOpacity(0.3),
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                    : SizedBox.shrink(),
+            () => isSubmitting.value
+                ? Container(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                : SizedBox.shrink(),
           ),
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15.0,
-          right: 15,
-          bottom: 30,
-          top: 10,
-        ),
+        padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 30, top: 10),
         child: SizedBox(
           width: double.infinity,
           height: 50,
           child: ElevatedButton(
-            onPressed:
-                (isFormValid && !isSubmitting.value)
-                    ? () async {
-                      // Set submitting to true to show loading indicator
-                      isSubmitting.value = true;
+            onPressed: (isFormValid && !isSubmitting.value)
+                ? () async {
+                    isSubmitting.value = true;
 
-                      try {
-                        final double price = double.parse(priceController.text);
-                        final int units = int.parse(unitsController.text);
+                    try {
+                      final double price = double.parse(priceController.text);
+                      final int units = int.parse(unitsController.text);
 
-                        final success = await deviceController.addDevice(
-                          deviceNameController.text,
-                          units,
-                          price,
-                          imageUrlController.text,
-                        );
+                      final success = await deviceController.addDevice(
+                        deviceNameController.text,
+                        units,
+                        price,
+                        imageUrlController.text,
+                      );
 
-                        // Hide loading indicator
-                        isSubmitting.value = false;
+                      isSubmitting.value = false;
 
-                        if (success) {
-                          // Ensure the main DeviceController is updated
-                          if (Get.isRegistered<DeviceController>()) {
-                            final mainDeviceController =
-                                Get.find<DeviceController>();
-                            mainDeviceController.refreshData();
-                          }
-
-                          Get.back();
-                          Get.snackbar(
-                            'Success',
-                            'Device added successfully',
-                            backgroundColor: Colors.green,
-                            colorText: Colors.white,
-                          );
+                      if (success) {
+                        if (Get.isRegistered<DeviceController>()) {
+                          final mainDeviceController = Get.find<DeviceController>();
+                          mainDeviceController.refreshData();
                         }
-                      } catch (e) {
-                        // Hide loading indicator on error
-                        isSubmitting.value = false;
 
+                        Get.back();
                         Get.snackbar(
-                          'Error',
-                          'Invalid input. Please check your values',
-                          backgroundColor: Colors.red,
+                          'Success',
+                          'Device added successfully',
+                          backgroundColor: Colors.green,
                           colorText: Colors.white,
                         );
                       }
+                    } catch (e) {
+                      isSubmitting.value = false;
+
+                      Get.snackbar(
+                        'Error',
+                        'Invalid input. Please check your values',
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
                     }
-                    : null, // Disable button when form is invalid or submitting
+                  }
+                : null, // Disable button when form is invalid or submitting
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
               disabledBackgroundColor: Colors.grey,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: Text(
               'Add Device',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
         ),

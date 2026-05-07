@@ -1,12 +1,13 @@
-import 'package:emi_management/admin/controllers/customer_controller.dart';
-import 'package:emi_management/admin/controllers/device_controller.dart';
-import 'package:emi_management/admin/screens/customers.dart';
-import 'package:emi_management/admin/screens/devices_screen.dart';
-import 'package:emi_management/utils/widgets/log_out_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/admin/controllers/customer_controller.dart';
+import 'package:untitled/admin/controllers/device_controller.dart';
+import 'package:untitled/utils/widgets/log_out_widget.dart';
+
+import 'customers.dart';
+import 'devices_screen.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -30,9 +31,7 @@ class DashboardPage extends StatelessWidget {
           'Dashboard',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
-        actions: [
-          logOutWidget()
-        ],
+        actions: [logOutWidget()],
       ),
       body: GetX<CustomerController>(
         builder: (controller) {
@@ -149,8 +148,9 @@ class DashboardPage extends StatelessWidget {
 
   // Build Revenue Overview with Chart - Updated for more professional styling
   Widget _buildRevenueOverview(
-      Map<String, List<Map<String, dynamic>>> customerLoans,
-      DashboardController dashboardController) {
+    Map<String, List<Map<String, dynamic>>> customerLoans,
+    DashboardController dashboardController,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -184,30 +184,30 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
               // Compact dropdown for time period selector
-              Obx(() => DropdownButton<String>(
-                value: dashboardController.selectedTimePeriod.value,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                isDense: true,
-                underline: Container(height: 0),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    dashboardController.selectedTimePeriod.value = newValue;
-                  }
-                },
-                items: <String>['Daily', 'Weekly', 'Monthly', 'Yearly']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF394456),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              )),
+              Obx(
+                () => DropdownButton<String>(
+                  value: dashboardController.selectedTimePeriod.value,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  isDense: true,
+                  underline: Container(height: 0),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      dashboardController.selectedTimePeriod.value = newValue;
+                    }
+                  },
+                  items: <String>['Daily', 'Weekly', 'Monthly', 'Yearly']
+                      .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 14, color: Color(0xFF394456)),
+                          ),
+                        );
+                      })
+                      .toList(),
+                ),
+              ),
             ],
           ),
         ),
@@ -234,8 +234,10 @@ class DashboardPage extends StatelessWidget {
           ),
           child: Obx(() {
             // Generate revenue data based on current time period
-            final List<Map<String, dynamic>> revenueData =
-            _calculateRevenueData(customerLoans, dashboardController.selectedTimePeriod.value);
+            final List<Map<String, dynamic>> revenueData = _calculateRevenueData(
+              customerLoans,
+              dashboardController.selectedTimePeriod.value,
+            );
 
             // If there's no data, show a placeholder message
             if (revenueData.isEmpty) {
@@ -256,16 +258,14 @@ class DashboardPage extends StatelessWidget {
                   touchTooltipData: BarTouchTooltipData(
                     tooltipMargin: 8,
                     tooltipPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    tooltipRoundedRadius: 8,
+                    /*tooltipRoundedRadius: 8,*/
+                    tooltipBorderRadius: BorderRadius.circular(8),
                     tooltipBorder: BorderSide.none,
                     getTooltipColor: (group) => const Color(0xFF3E5CB8).withValues(alpha: 0.8),
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
                         '₹${NumberFormat('#,##0').format(rod.toY)}',
-                        const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                       );
                     },
                   ),
@@ -301,31 +301,21 @@ class DashboardPage extends StatelessWidget {
                         if (value == 0) return const Text('');
                         return Text(
                           '₹${NumberFormat.compact().format(value)}',
-                          style: const TextStyle(
-                            color: Color(0xFF667085),
-                            fontSize: 10,
-                          ),
+                          style: const TextStyle(color: Color(0xFF667085), fontSize: 10),
                         );
                       },
                       reservedSize: 40,
                     ),
                   ),
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
                   horizontalInterval: _getMaxY(revenueData) / 4,
                   getDrawingHorizontalLine: (value) {
-                    return FlLine(
-                      color: const Color(0xFFEAECF0),
-                      strokeWidth: 1,
-                    );
+                    return FlLine(color: const Color(0xFFEAECF0), strokeWidth: 1);
                   },
                 ),
                 borderData: FlBorderData(
@@ -346,7 +336,9 @@ class DashboardPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 12),
           child: Obx(() {
             final revenueData = _calculateRevenueData(
-                customerLoans, dashboardController.selectedTimePeriod.value);
+              customerLoans,
+              dashboardController.selectedTimePeriod.value,
+            );
             final double totalRevenue = _calculateTotalRevenue(revenueData);
 
             return Container(
@@ -378,7 +370,9 @@ class DashboardPage extends StatelessWidget {
   }
 
   // Calculate EMI statistics from customer loans
-  Map<String, double> _calculateEMIStatistics(Map<String, List<Map<String, dynamic>>> customerLoans) {
+  Map<String, double> _calculateEMIStatistics(
+    Map<String, List<Map<String, dynamic>>> customerLoans,
+  ) {
     double totalEMIAmount = 0;
     double paidEMIAmount = 0;
     double unpaidEMIAmount = 0;
@@ -423,8 +417,9 @@ class DashboardPage extends StatelessWidget {
 
   // Calculate revenue data based on the selected time period
   List<Map<String, dynamic>> _calculateRevenueData(
-      Map<String, List<Map<String, dynamic>>> customerLoans,
-      String timePeriod) {
+    Map<String, List<Map<String, dynamic>>> customerLoans,
+    String timePeriod,
+  ) {
     // Initialize data structure based on time period
     Map<String, double> revenueByPeriod = {};
 
@@ -479,39 +474,27 @@ class DashboardPage extends StatelessWidget {
       for (int i = 6; i >= 0; i--) {
         final day = now.subtract(Duration(days: i));
         final dayName = DateFormat('E').format(day);
-        result.add({
-          'label': dayName,
-          'value': revenueByPeriod[dayName] ?? 0.0,
-        });
+        result.add({'label': dayName, 'value': revenueByPeriod[dayName] ?? 0.0});
       }
     } else if (timePeriod == 'Weekly') {
       // Get the last 8 weeks in order
       for (int i = 7; i >= 0; i--) {
         final weekKey = 'W-$i';
-        result.add({
-          'label': 'W${i+1}',
-          'value': revenueByPeriod[weekKey] ?? 0.0,
-        });
+        result.add({'label': 'W${i + 1}', 'value': revenueByPeriod[weekKey] ?? 0.0});
       }
     } else if (timePeriod == 'Monthly') {
       // Get the last 6 months in order
       for (int i = 5; i >= 0; i--) {
         final month = DateTime(now.year, now.month - i, 1);
         final monthName = DateFormat('MMM').format(month);
-        result.add({
-          'label': monthName,
-          'value': revenueByPeriod[monthName] ?? 0.0,
-        });
+        result.add({'label': monthName, 'value': revenueByPeriod[monthName] ?? 0.0});
       }
     } else if (timePeriod == 'Yearly') {
       // Get the last 5 years in order
       for (int i = 4; i >= 0; i--) {
         final year = now.year - i;
         final yearStr = year.toString();
-        result.add({
-          'label': yearStr,
-          'value': revenueByPeriod[yearStr] ?? 0.0,
-        });
+        result.add({'label': yearStr, 'value': revenueByPeriod[yearStr] ?? 0.0});
       }
     }
 
@@ -570,7 +553,13 @@ class DashboardPage extends StatelessWidget {
     return maxValue > 0 ? maxValue * 1.2 : 20;
   }
 
-  Widget _buildSummaryCard(String title, String value, Color color, IconData iconData, Color iconColor) {
+  Widget _buildSummaryCard(
+    String title,
+    String value,
+    Color color,
+    IconData iconData,
+    Color iconColor,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: color,
@@ -592,13 +581,7 @@ class DashboardPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -610,19 +593,19 @@ class DashboardPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, Color color, IconData iconData, Color iconColor) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    Color color,
+    IconData iconData,
+    Color iconColor,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: color,
@@ -645,24 +628,12 @@ class DashboardPage extends StatelessWidget {
             children: [
               Icon(iconData, color: iconColor, size: 24),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
             ],
           ),
           const SizedBox(height: 4),
           Center(
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -697,13 +668,7 @@ class DashboardPage extends StatelessWidget {
             child: Icon(iconData, color: iconColor, size: 24),
           ),
           const SizedBox(height: 6),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         ],
       ),
     );

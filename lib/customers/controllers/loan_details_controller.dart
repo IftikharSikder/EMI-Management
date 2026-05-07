@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emi_management/customers/models/customer_model.dart';
-import 'package:emi_management/customers/models/loan_model.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/customers/models/customer_model.dart';
+import 'package:untitled/customers/models/loan_model.dart';
 
 class LoanDetailsController extends GetxController {
   final Rx<LoanModel?> loan = Rx<LoanModel?>(null);
@@ -15,7 +15,7 @@ class LoanDetailsController extends GetxController {
   final RxString customerName = ''.obs;
   final RxString customerEmail = ''.obs;
 
-   fetchLoanDetails(String loanId) async {
+  fetchLoanDetails(String loanId) async {
     isLoading.value = true;
 
     try {
@@ -31,8 +31,10 @@ class LoanDetailsController extends GetxController {
         await fetchCustomerName(loanModel.customerId);
 
         final now = DateTime.now();
-        int currentMonthIndex = (now.year - loanModel.loanCreateDate.year) * 12 +
-            now.month - loanModel.loanCreateDate.month;
+        int currentMonthIndex =
+            (now.year - loanModel.loanCreateDate.year) * 12 +
+            now.month -
+            loanModel.loanCreateDate.month;
 
         int nextUnpaidMonth = 1;
         for (int i = 1; i <= loanModel.totalMonths; i++) {
@@ -55,7 +57,7 @@ class LoanDetailsController extends GetxController {
           formattedTransactions.add({
             'type': 'EMI Payment',
             'date': DateFormat('dd MMM, yyyy').format(date),
-            'amount': loanModel.monthlyEMI
+            'amount': loanModel.monthlyEMI,
           });
         }
 

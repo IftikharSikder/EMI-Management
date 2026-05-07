@@ -1,11 +1,12 @@
-import 'package:emi_management/admin/controllers/add_device_controller.dart';
-import 'package:emi_management/customers/services/auth_services.dart';
-import 'package:emi_management/splash_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/splash_screen.dart';
 
-void main() async{
+import 'admin/controllers/add_device_controller.dart';
+import 'customers/services/auth_services.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await getData();
@@ -21,10 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Aurora EMI Manager',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
       home: SplashScreen(),
     );
   }
