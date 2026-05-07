@@ -14,7 +14,7 @@
 ---
 
 <div align="center">
-  <img src="app_screenshots.png" alt="Aurora EMI Manager App Screenshots" width="100%" />
+  <img src="screenshots.png" alt="Aurora EMI Manager App Screenshots" width="100%" />
   <br/>
   <sub><i>Splash · Role Selection · Customer Login · EMI Dashboard · Profile · Lock Screen · Admin Login · Analytics · Device Management · Customer Profile · Add Customer</i></sub>
 </div>
